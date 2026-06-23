@@ -1,3 +1,7 @@
+import bisect
+from bisect import bisect_left, bisect_right
+from unittest import result
+
 from sortedcontainers import SortedSet, SortedKeyList
 
 
@@ -26,7 +30,22 @@ class College:
 
 
 #Hw+test,include max+min
-def get_students_by_scores_between(self,min_score,max_score):
-    pass
+    # def get_students_by_scores_between(self,min_score,max_score):
+    #     res = []
+    #     for students in self.__sorted_score_students:
+    #         if min_score <= students.score <= max_score:
+    #             res.append(students)
+    #     return res
+
+    def get_students_by_scores_between(self,min_score,max_score):
+        left = self.__sorted_score_students.bisect_key_left((min_score,0))
+        right = self.__sorted_score_students.bisect_key_right((max_score, float('inf')))
+        return self.__sorted_score_students[left:right]
+
+
+
+
+
+
 
 

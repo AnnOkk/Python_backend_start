@@ -34,5 +34,21 @@ class TestCollege(TestCase):
         students_sorted_by_score=self.__college.get_students_sorted_by_score()
         self.assertListEqual([student4,student1,student2,student3,] ,students_sorted_by_score)
 
+    def test_get_students_by_scores_between(self):
+        res = self.__college.get_students_by_scores_between(85,90)
+        self.assertListEqual([student1,student2] ,res)
+
+        res = self.__college.get_students_by_scores_between(80, 80)
+        self.assertListEqual([student4], res)
+
+        res = self.__college.get_students_by_scores_between(80, 95)
+        self.assertListEqual(
+            [student4, student1, student2, student3],
+            res
+        )
+
+        res = self.__college.get_students_by_scores_between(96, 100)
+        self.assertListEqual([], res)
+
 if __name__ == '__main__':
     main()
