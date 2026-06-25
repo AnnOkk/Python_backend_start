@@ -49,14 +49,11 @@ class MySetTest(TestCase):
         self.assertTrue(10 in self.my_set)
         self.assertFalse(20 in self.my_set)
 
-    def test_get_bucket_index(self): #
+    def test_get_bucket_index(self): # actually you do not need to control a private method
         my_set1 = MySet(6,0.75)
-        self.my_set.add(10)
-        self.my_set.add(17)
-        self.assertEqual(4,my_set1._get_bucket_index(10))
-        self.assertEqual(5,my_set1._get_bucket_index(17))
-
-
+        capacity = my_set1.capacity
+        self.assertEqual(hash(10) % capacity,my_set1._get_bucket_index(10))
+        self.assertEqual(hash(17) % capacity,my_set1._get_bucket_index(17))
 
 
     def test_resize(self): #?
