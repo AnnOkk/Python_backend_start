@@ -23,6 +23,7 @@ class MySet:
         old_buckets = self.buckets
         self.capacity *= 2
         self.buckets = [[] for _ in range(self.capacity)]
+        self.size = 0 #!!!!!!!!size must return to 0
         for bucket in old_buckets:
             for element in bucket:
                 self.add(element)

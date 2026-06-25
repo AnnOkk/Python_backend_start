@@ -10,6 +10,7 @@ class MySetTest(TestCase):
         self.assertEqual(self.my_set.capacity,16)
         self.assertEqual(self.my_set.load_factor,0.75)
         self.assertEqual(self.my_set.size,0)
+        self.assertEqual(16, len(self.my_set.buckets))
 
     def test_len(self):
         self.assertEqual(len(self.my_set),0)
@@ -64,7 +65,30 @@ class MySetTest(TestCase):
         self.assertIn(10,my_set2)
         self.assertIn(20,my_set2)
         self.assertEqual(2,len(my_set2))
-        self.assertEqual(2,my_set2.capacity)#?
+
+        my_set2.add(30)
+
+        # self.assertIn(30,my_set2)
+        # # self.assertEqual(6, len(my_set2)) ##bug in resize
+        # self.assertEqual(8, my_set2.capacity) #must be 4
+
+        # my_set2.add(40)
+        # self.assertIn(40,my_set2)
+        # self.assertNotIn(0,my_set2)
+        # # self.assertEqual(10, len(my_set2)) ##bug
+        # self.assertEqual(16, my_set2.capacity) #must be8
+
+        self.assertIn(30, my_set2)
+        self.assertEqual(3, len(my_set2))
+        self.assertEqual(4, my_set2.capacity)  # must be 4
+
+        my_set2.add(40)
+        self.assertIn(40, my_set2)
+        self.assertNotIn(0, my_set2)
+        self.assertEqual(4, len(my_set2)) ##
+        self.assertEqual(8, my_set2.capacity)
+
+
 
 
 
