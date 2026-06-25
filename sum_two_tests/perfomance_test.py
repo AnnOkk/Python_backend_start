@@ -1,21 +1,47 @@
 from time import time
+
+from my_set import my_set
 from sum_two_tests.sum_two import is_sum_two2, is_sum_two1
+
 if __name__ == '__main__':
     large_numbers = list(range(100_000))
     print(f'test with {len(large_numbers)} numbers')
     target_sum = 200_000
-    #testing is_sim_two1
+    # testing is_sim_two1
     start_time = time()
     result = is_sum_two1(large_numbers, target_sum)
     end_time = time()
     print(f'time: {end_time - start_time} seconds, result: {result}')
 
-    # testing is_sim_two2
+    my_set = my_set.MySet()
+    quantity = 100_000
+    print(f'test with {len(large_numbers)} numbers')
+
+    # add
     start_time = time()
-    result = is_sum_two2(large_numbers, target_sum)
+    for i in range(quantity):
+        my_set.add(i)
     end_time = time()
-    print(f'time: {end_time - start_time} seconds, result: {result}')
+    print(f'add time: {end_time - start_time} seconds')
 
+    # contains
+    start_time = time()
+    for i in range(quantity):
+        i in my_set
+    end_time = time()
+    print(f'contains time: {end_time - start_time} seconds')
 
+    # remove
+    start_time = time()
+    for i in range(quantity):
+        my_set.remove(i)
+    end_time = time()
+    print(f'remove time: {end_time - start_time} seconds')
 
+    #
 
+    # # testing is_sim_two2
+    # start_time = time()
+    # result = is_sum_two2(large_numbers, target_sum)
+    # end_time = time()
+    # print(f'time: {end_time - start_time} seconds, result: {result}')
