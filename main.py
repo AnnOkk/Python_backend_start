@@ -19,16 +19,12 @@ class MyStackInt:
     def __init__(self):
         self.stack = []
         self.max_stack = []
-        # self.max_num = None #?
 
     def push(self, num: int) -> None:
-
-        if len(self.max_stack) !=0 and num >= self.max_stack[-1]:
+        if len(self.max_stack) == 0 or num >= self.max_stack[-1]:
             self.max_stack.append(num)
-        elif len(self.max_stack) !=0 and num <= self.max_stack[-1]:
+        else:
             self.max_stack.append(self.max_stack[-1])
-        elif len(self.max_stack) == 0:
-            self.max_stack.append(num)
         return self.stack.append(num)
 
 
