@@ -26,6 +26,12 @@ class Test(TestCase):
         self.assertEqual(new_array.get(29),1)
         with self.assertRaises(IndexError):
             new_array.get(100)
+    def test_version(self):
+        new_array = MyArray(100)
+        new_array.set_all(1)
+        self.assertEqual(new_array.version,1)
+        new_array.set_all(55)
+        self.assertEqual(new_array.version,2)
 
 
 

@@ -14,36 +14,31 @@
 
 
 class MyArray[T]:
-    def __init__(self, amount,default_value=None):
-        self.default_dict = {}
+    def __init__(self, amount, default_value=None):
+
         self.amount = amount
         self.default_value = default_value
-
-
-    def set_all(self,value):
-        self.default_value = value #?
+        self.version = 0
         self.default_dict = {}
 
-    def set(self,key,value):
-        if 0 <= key < self.amount:
-            self.default_dict[key] = value
-        else:
+    def set_all(self, value):
+        self.default_value = value  # ?
+        self.version += 1
+
+    def set(self, key, value):
+        if not 0 <= key < self.amount:
             raise IndexError
-
-    def get(self,key):
-        if  0 <= key < self.amount :
-            if key in self.default_dict:
-                return self.default_dict[key]
-            else:return self.default_value
         else:
+            self.default_dict[key] = (value, self.version)
+
+
+    def get(self, key):
+        if  not 0 <= key < self.amount:
             raise IndexError
-
-
-
-
-
-
-
-
+        if key in self.default_dict:
+            value, value_version = self.default_dict[key]
+            if value_version == self.version:
+                return value
+        return self.default_value
 
 
