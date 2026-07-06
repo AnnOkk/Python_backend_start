@@ -17,6 +17,24 @@ class TestFibo(TestCase):
     def test_two_numbers(self):
         fib = Fibonacci(2)
         self.assertEqual([1, 1], list(fib))
+    def test_error(self):
+        with self.assertRaises(TypeError):
+            fib = Fibonacci('a')
+
+    def test_stop_iteration(self):
+        fib = Fibonacci(2)
+
+        self.assertEqual(1, next(fib))
+        self.assertEqual(1, next(fib))
+
+        with self.assertRaises(StopIteration):
+            next(fib)
+
+
+
+
+
+
 
 
 
