@@ -41,7 +41,7 @@ class LfuDictCache(Generic[K, V]):
         self.counter = 0
         self.frequency = {}  # for each key, how many times it was accessed
         self.last_used = {}  # for each key, when it was accessed last time
-        self.sorted_keys = SortedDict()
+        # self.sorted_keys = SortedDict()
 
     def __getitem__(self, key: K) -> V:
         # TODO method for square braces operator [] getting key and returning value with throwing
