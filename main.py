@@ -41,38 +41,36 @@ class LfuDictCache(Generic[K, V]):
         self.counter = 0
         self.frequency = {}  # for each key, how many times it was accessed
         self.last_used = {}  # for each key, when it was accessed last time
-        # self.sorted_keys = SortedDict()
+        self.sorted_keys = SortedDict()
 
     def __getitem__(self, key: K) -> V:
         # TODO method for square braces operator [] getting key and returning value with throwing
         # KeyError exception if key is missing
         if key not in self.data:
             raise KeyError()
+        del self.sorted_keys[(self.frequency[key], self.last_used[key], key)]  # !
         value = self.data[key]
         self.counter += 1
         self.frequency[key] += 1
         self.last_used[key] = self.counter
+        self.sorted_keys[(self.frequency[key], self.last_used[key], key)] = key  # !
         return value
 
     def __setitem__(self, key: K, value: V):
         # TODO method for square braces operator [] either updating existing key-value association or adding a new one
         if key in self.data:
+            del self.sorted_keys[(self.frequency[key], self.last_used[key], key)]  # !
             self.data[key] = value
             self.counter += 1
             self.frequency[key] += 1
             self.last_used[key] = self.counter
+            self.sorted_keys[(self.frequency[key], self.last_used[key], key)] = key
 
         elif key not in self.data and len(self.data) < self.max_size:
             self._initialize_new_key(key, value)
         elif len(self.data) == self.max_size:
-            candidate = None
-            for k in self.last_used:
-                if candidate is None:
-                    candidate = k
-                elif self.frequency[k] < self.frequency[candidate]:
-                    candidate = k
-                elif self.frequency[k] == self.frequency[candidate] and self.last_used[k] < self.last_used[candidate]:
-                    candidate = k
+            candidate = self.sorted_keys.peekitem(0)[
+                1]  # peekitem get a first item from the sorted_keys with min frequency and last_used
             self.__delitem__(candidate)
             self._initialize_new_key(key, value)  # !!
 
@@ -81,6 +79,7 @@ class LfuDictCache(Generic[K, V]):
         # in the case of missing key like del dict[key]
         if key not in self.data:
             raise KeyError()
+        del self.sorted_keys[(self.frequency[key], self.last_used[key], key)]  # !
         del self.data[key]
         del self.frequency[key]
         del self.last_used[key]
@@ -100,3 +99,4 @@ class LfuDictCache(Generic[K, V]):
         self.counter += 1
         self.frequency[key] = 1
         self.last_used[key] = self.counter
+        self.sorted_keys[(self.frequency[key], self.last_used[key], key)] = key  # ?
