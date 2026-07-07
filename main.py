@@ -43,8 +43,6 @@ class LfuDictCache(Generic[K, V]):
         self.last_used = {}  # for each key, when it was accessed last time
         self.sorted_keys = SortedDict()
 
-        raise NotImplementedError()
-
     def __getitem__(self, key: K) -> V:
         # TODO method for square braces operator [] getting key and returning value with throwing
         # KeyError exception if key is missing
@@ -58,19 +56,25 @@ class LfuDictCache(Generic[K, V]):
 
     def __setitem__(self, key: K, value: V):
         # TODO method for square braces operator [] either updating existing key-value association or adding a new one
-        if key in self.data and len(self.data) < self.max_size:
+        if key in self.data:
             self.data[key] = value
             self.counter += 1
             self.frequency[key] += 1
             self.last_used[key] = self.counter
-        if key not in self.data and len(self.data) < self.max_size:
-            self.data[key] = value
-            self.counter += 1
-            self.frequency[key] = 1
-            self.last_used[key] = self.counter
-        if len(self.data) == self.max_size:
-            for k, v in self.last_used.items():
-                pass
+
+        elif key not in self.data and len(self.data) < self.max_size:
+            self._initialize_new_key(key, value)
+        elif len(self.data) == self.max_size:
+            candidate = None
+            for k in self.last_used:
+                if candidate is None:
+                    candidate = k
+                elif self.frequency[k] < self.frequency[candidate]:
+                    candidate = k
+                elif self.frequency[k] == self.frequency[candidate] and self.last_used[k] < self.last_used[candidate]:
+                    candidate = k
+            self.__delitem__(candidate)
+            self._initialize_new_key(key, value)  # !!
 
     def __delitem__(self, key: K):
         # TODO method for deleting key-value association from a dictionary with throwing KeyError exception
@@ -90,3 +94,9 @@ class LfuDictCache(Generic[K, V]):
     def __len__(self) -> int:
         # TODO method returning number of key-value associations (pairs)
         return len(self.data)
+
+    def _initialize_new_key(self, key: K, value: V):
+        self.data[key] = value
+        self.counter += 1
+        self.frequency[key] = 1
+        self.last_used[key] = self.counter
