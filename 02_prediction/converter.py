@@ -27,17 +27,17 @@ def convert_x(df: pd.DataFrame, mapper: dict[str, dict[str, int]]) -> pd.DataFra
 
 
 
-df = pd.DataFrame({
-    "Company": ["Toyota", "Toyota", "Hundai"],
-    "Model": ["Camry", "Corolla", "i10"]
-})
-
-print('Enumerator !!!', enumerator(['Toyota','BMW','Opel']))
-
-mapper = columns_mapper(["Company", "Model"], df)
-print('columns_mapper!!!',mapper)
-
-
-converted = convert_x(df, mapper)
-
-print('converted!!!         ',converted)
+# df = pd.DataFrame({
+#     "Company": ["Toyota", "Toyota", "Hundai"],
+#     "Model": ["Camry", "Corolla", "i10"]
+# })
+#
+# print('Enumerator !!!', enumerator(['Toyota','BMW','Opel']))
+#
+# mapper = columns_mapper(["Company", "Model"], df)
+# print('columns_mapper!!!',mapper)
+#
+#
+# converted = convert_x(df, mapper)
+#
+# print('converted!!!         ',converted)
